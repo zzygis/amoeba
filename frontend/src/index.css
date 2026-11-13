@@ -1,0 +1,13 @@
+/* Global base styles. Design tokens (colors, spacing, fonts) arrive in step 3. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background: #1c1033;
+  color: #fff;
+}
