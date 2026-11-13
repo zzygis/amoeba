@@ -102,5 +102,5 @@ Do these in order: each service needs a value from the one before it.
 |---|---|
 | Status page: "Could not reach the server" | `FRONTEND_URL` doesn't exactly match the Vercel URL (CORS), or the API is still waking up |
 | `/api/health` returns `"database":"unreachable"` | wrong DB credentials, or the CA secret file is missing/misnamed (check Render logs) |
-| Render build fails at `start.sh` | script saved with CRLF line endings (`.gitattributes` should prevent this) |
+| Render deploy fails with `start.sh: not found` | script saved with CRLF line endings (`.gitattributes` should prevent this) |
 | Vercel page 404s on refresh | Root Directory isn't `frontend`, so `vercel.json` wasn't picked up |
