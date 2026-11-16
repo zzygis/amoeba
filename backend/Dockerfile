@@ -3,10 +3,10 @@
 FROM php:8.5-apache
 
 # System packages: unzip lets Composer extract packages.
-# PHP extensions: pdo_mysql for MySQL, opcache for speed.
+# PHP extensions: pdo_mysql for MySQL. (Opcache is built into PHP 8.5, so it isn't installed here.)
 RUN apt-get update \
     && apt-get install -y --no-install-recommends unzip \
-    && docker-php-ext-install pdo_mysql opcache \
+    && docker-php-ext-install pdo_mysql \
     && rm -rf /var/lib/apt/lists/*
 
 # Apache: serve from public/, enable .htaccess rewrites (Laravel's front controller),
