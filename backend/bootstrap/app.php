@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EnsureUserIsAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -13,14 +14,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Render terminates HTTPS at its proxy and forwards plain HTTP to the container.
-        // Trusting the proxy lets Laravel see the original https:// scheme and client IP
-        // (the client IP matters for the login rate limiter).
         $middleware->trustProxies(at: '*');
+
+        $middleware->redirectGuestsTo(fn () => null);
+
+        // "admin" in routes/api.php: only users with is_admin get through.
+        $middleware->alias(['admin' => EnsureUserIsAdmin::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // This is an API-only app: every error under /api is returned as JSON
-        // ({"message": "...", "errors": {...}}), even if the client forgot the
-        // "Accept: application/json" header. No HTML error pages, no redirects to a login page.
         $exceptions->shouldRenderJsonWhen(fn (Request $request) => $request->is('api/*'));
     })->create();
