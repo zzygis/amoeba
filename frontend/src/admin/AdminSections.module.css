@@ -1,0 +1,119 @@
+/* Styles for the admin sections' content (tables, forms). The frame is AdminLayout.module.css. */
+
+/* Tables scroll sideways on phones instead of squashing. */
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-panel);
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table th {
+  background: var(--color-surface);
+  white-space: nowrap;
+}
+
+.priceForm {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.priceForm input {
+  width: 80px;
+  min-height: 36px;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.priceForm :global(.btn) {
+  min-height: 36px;
+  padding: 0 var(--space-3);
+}
+
+.keysBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-3);
+}
+
+.keysBox textarea {
+  width: 100%;
+  min-width: 240px;
+  padding: var(--space-2);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.couponForm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--space-3);
+  align-items: end;
+  margin-bottom: var(--space-5);
+  padding: var(--space-5);
+  background: var(--color-panel);
+}
+
+.note {
+  color: var(--color-success);
+  font-size: 0.85rem;
+}
+
+.good {
+  color: var(--color-success);
+}
+
+.bad {
+  color: var(--color-danger);
+  font-weight: 700;
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.filterRow input,
+.table input:not([type='checkbox']) {
+  min-height: 36px;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.table input.small {
+  width: 72px;
+}
+
+.table input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-accent);
+}
