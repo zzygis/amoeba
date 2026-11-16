@@ -8,6 +8,7 @@ use App\Mail\OrderConfirmation;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\ProductKey;
+use App\Support\CatalogCache;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -117,6 +118,9 @@ class CheckoutController extends Controller
         });
 
         $order->load(['items.product.game', 'items.keys']);
+
+        // Stock changed: a product on the homepage may have just sold out.
+        CatalogCache::flush();
 
         // Email the keys. Sent after the transaction has committed, and a mail problem
         // must not undo a completed order: the keys are on the order page anyway.

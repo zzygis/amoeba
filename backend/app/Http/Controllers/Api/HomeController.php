@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\HomeBlock;
+use App\Support\CatalogCache;
 use Illuminate\Http\JsonResponse;
 
 class HomeController extends Controller
@@ -16,7 +17,9 @@ class HomeController extends Controller
      */
     public function __invoke(): JsonResponse
     {
-        $blocks = HomeBlock::query()
+        // Every visitor gets the same homepage, and building it takes a dozen queries,
+        // so it's cached for a minute (and dropped as soon as something on it changes).
+        $blocks = CatalogCache::remember('home', fn () => HomeBlock::query()
             ->where('enabled', true)
             ->orderBy('position')
             ->get()
@@ -27,7 +30,8 @@ class HomeController extends Controller
                 'title' => $block->title,
                 'content' => $block->content(),
             ])
-            ->values();
+            ->values()
+            ->all());
 
         return response()->json(['data' => $blocks]);
     }

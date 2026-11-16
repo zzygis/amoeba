@@ -7,6 +7,7 @@ use App\Models\Coupon;
 use App\Models\HomeBlock;
 use App\Models\Offer;
 use App\Models\Order;
+use App\Support\CatalogCache;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -55,6 +56,8 @@ class AdminController extends Controller
             'price_cents' => ['required', 'integer', 'min:1', 'max:1000000'],
         ]));
 
+        CatalogCache::flush(); // prices show on the homepage and in the filters' price range
+
         return response()->json(['data' => ['id' => $offer->id, 'price_cents' => $offer->price_cents]]);
     }
 
@@ -81,6 +84,7 @@ class AdminController extends Controller
 
         // createMany goes through the model, so every code is encrypted by its cast.
         $offer->keys()->createMany($codes->map(fn (string $code) => ['code' => $code]));
+        CatalogCache::flush(); // a sold-out product may be buyable again
 
         return response()->json([
             'added' => $codes->count(),
@@ -114,6 +118,7 @@ class AdminController extends Controller
             'position' => ['required', 'integer', 'min:0', 'max:1000'],
             'enabled' => ['required', 'boolean'],
         ]));
+        CatalogCache::flush(); // show the change on the homepage right away
 
         return response()->json(['data' => ['id' => $homeBlock->id]]);
     }

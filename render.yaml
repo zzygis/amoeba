@@ -41,8 +41,13 @@ services:
         value: /etc/secrets/aiven-ca.pem
       - key: SESSION_DRIVER
         value: array
+      # File cache on the container's own disk: reading it needs no trip to the remote
+      # database (a "database" cache would cost a round trip to Aiven per read).
       - key: CACHE_STORE
-        value: database
+        value: file
+      # Reuse the TLS connection to Aiven between requests instead of a new handshake each time.
+      - key: DB_PERSISTENT
+        value: "true"
       - key: QUEUE_CONNECTION
         value: sync
       # Emails (order confirmations, password resets) are written to the log, i.e. Render's

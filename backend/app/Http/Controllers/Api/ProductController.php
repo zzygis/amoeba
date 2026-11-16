@@ -8,6 +8,7 @@ use App\Http\Resources\ProductResource;
 use App\Models\Game;
 use App\Models\Offer;
 use App\Models\Product;
+use App\Support\CatalogCache;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -62,6 +63,12 @@ class ProductController extends Controller
      */
     public function filters(): JsonResponse
     {
+        // The same for every visitor and only changes with the catalog: cached for a minute.
+        return response()->json(['data' => CatalogCache::remember('filters', fn () => $this->filterOptions())]);
+    }
+
+    private function filterOptions(): array
+    {
         $countBy = fn (string $column) => Product::query()
             ->selectRaw("{$column} as name, count(*) as count")
             ->groupBy($column)
@@ -79,15 +86,15 @@ class ProductController extends Controller
             ->values()
             ->map(fn ($row) => ['name' => $row->name, 'count' => (int) $row->count]);
 
-        return response()->json(['data' => [
-            'types' => $types,
-            'platforms' => $countBy('platform'),
-            'regions' => $countBy('region'),
+        return [
+            'types' => $types->all(),
+            'platforms' => $countBy('platform')->all(),
+            'regions' => $countBy('region')->all(),
             'price' => [
                 'min_cents' => (int) Offer::min('price_cents'),
                 'max_cents' => (int) Offer::max('price_cents'),
             ],
-        ]]);
+        ];
     }
 
     /**
