@@ -1,0 +1,65 @@
+.steps {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-6);
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Line between steps */
+.step:not(:last-child)::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  margin-left: var(--space-2);
+  background: var(--color-border);
+}
+
+.number {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-panel);
+  font-size: 0.75rem;
+}
+
+.active {
+  color: var(--color-text);
+}
+
+.active .number {
+  background: var(--color-success);
+  color: #000;
+}
+
+.done .number {
+  background: var(--color-success);
+  color: #000;
+}
+
+.done::after {
+  background: var(--color-success) !important;
+}
+
+@media (max-width: 480px) {
+  .step span:last-child {
+    display: none;
+  }
+
+  .active span:last-child {
+    display: inline;
+  }
+}

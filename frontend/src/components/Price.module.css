@@ -1,0 +1,28 @@
+.price {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.was {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.discount {
+  color: var(--color-success);
+  font-weight: 700;
+}
+
+.now {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.nowLarge {
+  font-size: 2.1rem;
+  font-weight: 800;
+}

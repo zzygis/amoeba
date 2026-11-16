@@ -1,0 +1,106 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.headerInner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: var(--space-3) var(--page-gutter);
+}
+
+.logoLink {
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.cartLink {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+}
+
+.badge {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9px;
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+}
+
+.accountLink {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.accountLink:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  color: var(--color-text-muted);
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--page-gutter) var(--space-10);
+}
+
+.footer {
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.footer p {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: var(--space-6) var(--page-gutter);
+}
+
+/* Narrow screens: logo + account on the first row, search box full width below. */
+@media (max-width: 760px) {
+  .headerInner {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .headerInner > form {
+    order: 3;
+    flex-basis: 100%;
+    max-width: none;
+  }
+}

@@ -15,7 +15,7 @@ export default function StatusPage() {
   }, [])
 
   return (
-    <main style={{ padding: '2rem' }}>
+    <section>
       <h1>{import.meta.env.VITE_APP_NAME}</h1>
       <p>API: {import.meta.env.VITE_API_URL}</p>
       {!health && !error && <p>Checking API…</p>}
@@ -27,6 +27,6 @@ export default function StatusPage() {
           <li>Server time: {health.time}</li>
         </ul>
       )}
-    </main>
+    </section>
   )
 }

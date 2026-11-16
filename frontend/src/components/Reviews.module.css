@@ -1,0 +1,109 @@
+.reviews {
+  margin-top: var(--space-10);
+}
+
+.reviews h2 {
+  margin: 0 0 var(--space-2);
+  font-size: 1.35rem;
+}
+
+.summary {
+  margin: 0 0 var(--space-4);
+}
+
+.stars {
+  color: var(--color-accent);
+  letter-spacing: 2px;
+}
+
+.starsEmpty {
+  color: rgb(255 255 255 / 0.25);
+}
+
+.muted {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-4) 0;
+  padding: 0;
+  list-style: none;
+}
+
+.review {
+  padding: var(--space-4);
+  background: var(--color-surface);
+}
+
+.review p {
+  margin: var(--space-2) 0 0;
+  white-space: pre-line;
+}
+
+.reviewHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  max-width: 640px;
+  margin-bottom: var(--space-4);
+  padding: var(--space-5);
+  background: var(--color-panel);
+}
+
+.form h3 {
+  margin: 0;
+}
+
+.form :global(.field) {
+  width: 100%;
+}
+
+.form textarea {
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+  resize: vertical;
+}
+
+.ratingInput {
+  display: flex;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ratingInput legend {
+  margin-bottom: var(--space-1);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.ratingInput label {
+  color: rgb(255 255 255 / 0.25);
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ratingInput label.on {
+  color: var(--color-accent);
+}
+
+.ratingInput label:has(input:focus-visible) {
+  outline: 2px solid var(--color-accent);
+}

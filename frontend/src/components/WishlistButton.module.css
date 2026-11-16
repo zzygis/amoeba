@@ -1,0 +1,26 @@
+.button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(0 0 0 / 0.55);
+  color: #fff;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: rgb(0 0 0 / 0.8);
+}
+
+.button svg {
+  fill: none;
+  stroke: currentColor;
+}
+
+.saved svg {
+  fill: #ff4d6d;
+  stroke: #ff4d6d;
+}

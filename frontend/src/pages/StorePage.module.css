@@ -1,0 +1,136 @@
+.layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.sidebar {
+  position: sticky;
+  top: 80px;
+}
+
+.heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  overflow-wrap: anywhere;
+}
+
+.controls {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.filterToggle {
+  display: none;
+}
+
+.sort select {
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  background: var(--color-panel);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chipsRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 32px;
+  margin-bottom: var(--space-4);
+}
+
+.chip {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid #fff;
+  background: transparent;
+  color: var(--color-text);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.chip:hover {
+  background: rgb(255 255 255 / 0.1);
+}
+
+.clearAll {
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.count {
+  margin: 0 0 0 auto;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.count strong {
+  color: var(--color-text);
+}
+
+/* As many ~190px columns as fit; 2 on a phone. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(190px, 100%), 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transition: opacity 0.15s ease;
+}
+
+.grid > li {
+  display: flex;
+}
+
+.grid > li > * {
+  flex: 1;
+}
+
+.empty {
+  padding: var(--space-10) var(--space-4);
+  background: var(--color-panel);
+  text-align: center;
+}
+
+/* Narrow screens: the sidebar becomes a panel opened with the "Filters" button. */
+@media (max-width: 860px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    display: none;
+    position: static;
+    grid-row: 2;
+  }
+
+  .sidebar.open {
+    display: block;
+  }
+
+  .filterToggle {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+  }
+}

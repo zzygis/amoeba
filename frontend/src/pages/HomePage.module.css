@@ -1,0 +1,131 @@
+.hero {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: var(--space-8);
+  align-items: center;
+  padding: var(--space-8);
+  background:
+    radial-gradient(circle at 85% 20%, rgb(250 211 24 / 0.18), transparent 45%),
+    linear-gradient(120deg, var(--color-surface), #2b0f6e);
+}
+
+.heroCover {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.45);
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.heroText h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.kicker {
+  margin: 0;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.heroMeta {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 560px) {
+  .hero {
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: var(--space-4);
+    padding: var(--space-4);
+  }
+}
+
+.platforms {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.platform {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-4);
+  background: var(--color-panel);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.platform:hover {
+  background: var(--color-panel-hover);
+}
+
+.platform span {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.row {
+  margin-top: var(--space-10);
+}
+
+.rowHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+}
+
+.rowHeading h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.seeAll {
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.rowGrid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rowGrid > li {
+  display: flex;
+}
+
+.rowGrid > li > * {
+  flex: 1;
+}
+
+/* Narrower screens: the row scrolls sideways instead of squeezing the cards. */
+@media (max-width: 1100px) {
+  .rowGrid {
+    grid-template-columns: none;
+    grid-auto-columns: 180px;
+    grid-auto-flow: column;
+    overflow-x: auto;
+    padding-bottom: var(--space-2);
+    scroll-snap-type: x mandatory;
+  }
+
+  .rowGrid > li {
+    scroll-snap-align: start;
+  }
+}
