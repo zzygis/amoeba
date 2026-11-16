@@ -2,6 +2,12 @@
 # Container start-up: runs on every deploy/restart, after Render injects env vars.
 set -e
 
+if [ -n "$MYSQL_ATTR_SSL_CA" ] && [ -f "$MYSQL_ATTR_SSL_CA" ]; then
+    cp "$MYSQL_ATTR_SSL_CA" /var/www/html/storage/db-ca.pem
+    chmod 644 /var/www/html/storage/db-ca.pem
+    export MYSQL_ATTR_SSL_CA=/var/www/html/storage/db-ca.pem
+fi
+
 # Cache config and routes now that the real environment variables are available.
 php artisan config:cache
 php artisan route:cache
