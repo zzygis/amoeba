@@ -60,14 +60,16 @@ class HomeTest extends TestCase
             ->assertJsonPath('data.0.content.see_all', ['sort' => 'popular', 'max_price' => 10, 'type' => 'dlc']);
     }
 
-    public function test_platforms_block_counts_products(): void
+    public function test_platforms_block_counts_products_most_first(): void
     {
         $this->block('platforms', 'Platforms', 1);
+        Product::factory()->create(['platform' => 'EA App']);
+        Product::factory()->count(3)->create(['platform' => 'Xbox']);
         Product::factory()->count(2)->create(['platform' => 'Steam']);
-        Product::factory()->create(['platform' => 'Xbox']);
 
+        // Not alphabetical: most products first.
         $this->getJson('/api/home')->assertJsonPath('data.0.content.platforms', [
-            ['name' => 'Steam', 'count' => 2], ['name' => 'Xbox', 'count' => 1],
+            ['name' => 'Xbox', 'count' => 3], ['name' => 'Steam', 'count' => 2], ['name' => 'EA App', 'count' => 1],
         ]);
     }
 }

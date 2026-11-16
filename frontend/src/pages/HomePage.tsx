@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { storeLink } from '../api/products'
+import PlatformIcon from '../components/PlatformIcon'
 import Price from '../components/Price'
 import ProductCard, { ProductCardSkeleton } from '../components/ProductCard'
 import { useApi } from '../hooks/useApi'
@@ -71,8 +72,13 @@ function PlatformsBlock({ block }: { block: BlockOf<'platforms'> }) {
     <nav className={styles.platforms} aria-label={block.title}>
       {block.content.platforms.map((platform) => (
         <Link key={platform.name} to={storeLink({ platforms: [platform.name] })} className={styles.platform}>
-          <strong>{platform.name}</strong>
-          <span>{plural(platform.count, 'product')}</span>
+          <span className={styles.platformIcon}>
+            <PlatformIcon platform={platform.name} size={22} />
+          </span>
+          <span className={styles.platformText}>
+            <strong>{platform.name}</strong>
+            <span>{plural(platform.count, 'product')}</span>
+          </span>
         </Link>
       ))}
     </nav>

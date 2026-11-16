@@ -78,7 +78,7 @@ describe('store URL', () => {
 
   it('ignores unknown values and bad page numbers', () => {
     const query = readStoreQuery(new URLSearchParams('sort=random&type=movies&page=-3'))
-    expect(query.sort).toBe('popular')
+    expect(query.sort).toBe('stock')
     expect(query.types).toEqual([])
     expect(query.page).toBe(1)
   })

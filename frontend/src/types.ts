@@ -93,7 +93,7 @@ export interface FilterOptions {
   price: { min_cents: number; max_cents: number }
 }
 
-export type SortOption = 'popular' | 'price_asc' | 'price_desc' | 'discount' | 'newest' | 'oldest' | 'az'
+export type SortOption = 'stock' | 'popular' | 'price_asc' | 'price_desc' | 'discount' | 'newest' | 'oldest' | 'az'
 
 // ReviewResource.php
 export interface Review {

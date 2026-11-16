@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { TYPE_LABELS, type StoreQuery } from '../api/products'
 import { formatPrice } from '../lib/format'
+import PlatformIcon from './PlatformIcon'
 import type { FilterOptions, ProductType } from '../types'
 import styles from './StoreFilters.module.css'
 
@@ -51,6 +52,9 @@ export default function StoreFilters({ options, query, onChange }: Props) {
               checked={query.platforms.includes(platform.name)}
               onChange={() => onChange({ platforms: toggle(query.platforms, platform.name) })}
             />
+            <span className={styles.platformIcon}>
+              <PlatformIcon platform={platform.name} />
+            </span>
             <span>{platform.name}</span>
             <span className={styles.count}>{platform.count}</span>
           </label>

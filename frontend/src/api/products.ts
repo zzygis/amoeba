@@ -13,6 +13,7 @@ export interface StoreQuery {
 }
 
 export const SORT_LABELS: Record<SortOption, string> = {
+  stock: 'Availability: Most keys first',
   popular: 'Popularity: Most popular',
   price_asc: 'Price: Low to High',
   price_desc: 'Price: High to Low',
@@ -35,7 +36,7 @@ const DEFAULT_QUERY: StoreQuery = {
   regions: [],
   minPrice: '',
   maxPrice: '',
-  sort: 'popular',
+  sort: 'stock', // most keys first
   page: 1,
 }
 
@@ -51,7 +52,7 @@ export function readStoreQuery(params: URLSearchParams): StoreQuery {
     regions: list('region'),
     minPrice: params.get('min_price') ?? '',
     maxPrice: params.get('max_price') ?? '',
-    sort: sort && sort in SORT_LABELS ? (sort as SortOption) : 'popular',
+    sort: sort && sort in SORT_LABELS ? (sort as SortOption) : 'stock',
     page: Math.max(1, Math.floor(Number(params.get('page'))) || 1),
   }
 }
@@ -68,12 +69,12 @@ export function storeQueryString(query: Partial<StoreQuery>): string {
   if (full.regions.length) params.set('region', full.regions.join(','))
   if (full.minPrice) params.set('min_price', full.minPrice)
   if (full.maxPrice) params.set('max_price', full.maxPrice)
-  if (full.sort !== 'popular') params.set('sort', full.sort)
+  if (full.sort !== 'stock') params.set('sort', full.sort)
   if (full.page > 1) params.set('page', String(full.page))
   return params.toString()
 }
 
-// The API takes the same parameter names (its sort also defaults to "popular").
+// The API takes the same parameter names (its sort also defaults to "stock").
 export function productsPath(query: Partial<StoreQuery> & { perPage?: number }): string {
   const params = new URLSearchParams(storeQueryString(query))
   if (query.perPage) params.set('per_page', String(query.perPage))

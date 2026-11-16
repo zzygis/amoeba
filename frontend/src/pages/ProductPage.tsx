@@ -327,7 +327,6 @@ function OfferRow(props: {
   return (
     <li className={`${styles.offer} ${props.featured ? styles.featuredOffer : ''}`}>
       <div>
-        {props.featured && <span className={styles.badge}>Best price</span>}
         <SellerLine offer={offer} />
         <span className={soldOut ? styles.soldOut : styles.muted}>
           {soldOut ? 'Sold out' : `${offer.stock} ${offer.stock === 1 ? 'key' : 'keys'} available`}

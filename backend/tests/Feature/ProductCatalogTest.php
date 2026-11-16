@@ -42,12 +42,25 @@ class ProductCatalogTest extends TestCase
             ->assertJsonPath('data.1.title', 'Zelda');
     }
 
-    public function test_default_sort_is_most_popular_first(): void
+    public function test_sort_popular_puts_most_reviewed_first(): void
     {
         Product::factory()->for(Game::factory()->state(['title' => 'Niche', 'steam_reviews' => 10]))->create();
         Product::factory()->for(Game::factory()->state(['title' => 'Hit', 'steam_reviews' => 900000]))->create();
 
-        $this->getJson('/api/products')->assertJsonPath('data.0.title', 'Hit');
+        $this->getJson('/api/products?sort=popular')->assertJsonPath('data.0.title', 'Hit');
+    }
+
+    public function test_default_sort_is_most_keys_first(): void
+    {
+        $few = $this->offer(keys: 2, product: Product::factory()->for(Game::factory()->state(['title' => 'Few']))->create());
+        $this->offer(keys: 3, product: $few->product); // another seller: stock counts all sellers (5)
+        $this->offer(keys: 9, product: Product::factory()->for(Game::factory()->state(['title' => 'Many']))->create());
+        $this->offer(keys: 0, product: Product::factory()->for(Game::factory()->state(['title' => 'None']))->create());
+
+        $titles = collect($this->getJson('/api/products')->json('data'))->pluck('title')->all();
+
+        $this->assertSame(['Many', 'Few', 'None'], $titles);
+        $this->assertSame($titles, collect($this->getJson('/api/products?sort=stock')->json('data'))->pluck('title')->all());
     }
 
     public function test_price_is_the_cheapest_offer_that_still_has_keys(): void
@@ -125,7 +138,7 @@ class ProductCatalogTest extends TestCase
         $this->getJson('/api/products/filters')
             ->assertOk()
             ->assertJsonPath('data.platforms', [['name' => 'Steam', 'count' => 2], ['name' => 'Xbox', 'count' => 1]])
-            ->assertJsonPath('data.regions', [['name' => 'EUROPE', 'count' => 1], ['name' => 'GLOBAL', 'count' => 2]])
+            ->assertJsonPath('data.regions', [['name' => 'GLOBAL', 'count' => 2], ['name' => 'EUROPE', 'count' => 1]]) // most first
             ->assertJsonPath('data.price', ['min_cents' => 500, 'max_cents' => 4000]);
     }
 
@@ -237,6 +250,16 @@ class ProductCatalogTest extends TestCase
         $this->assertNotSame('SECRET-CODE-12345', $key->getRawOriginal('code'));
         $this->assertStringNotContainsString('SECRET-CODE-12345', $this->getJson('/api/products')->getContent());
         $this->assertStringNotContainsString('SECRET-CODE-12345', $this->getJson("/api/products/{$key->offer->product->slug}")->getContent());
+    }
+
+    public function test_seeded_keys_are_encrypted_and_readable_through_the_model(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+        $key = ProductKey::first();
+
+        // Bulk-inserted by the seeder, but stored exactly like the model's 'encrypted' cast does.
+        $this->assertMatchesRegularExpression('/^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$/', $key->code);
+        $this->assertStringNotContainsString($key->code, $key->getRawOriginal('code'));
     }
 
     public function test_seeder_can_run_twice_without_duplicating_anything(): void

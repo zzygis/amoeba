@@ -14,6 +14,7 @@ class PlatformsBlock implements HomeBlockContent
         $platforms = Product::query()
             ->selectRaw('platform as name, count(*) as count')
             ->groupBy('platform')
+            ->orderByDesc('count') // most products first, like the store's platform filter
             ->orderBy('platform')
             ->get()
             ->map(fn ($row) => ['name' => $row->name, 'count' => (int) $row->count])

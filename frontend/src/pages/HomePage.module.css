@@ -59,19 +59,39 @@
 
 .platform {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
+  gap: var(--space-3);
   padding: var(--space-4);
   background: var(--color-panel);
   text-decoration: none;
   transition: background 0.15s ease;
 }
 
+/* Same dark square as the store's platform filter, a bit bigger. */
+.platformIcon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: #fff;
+}
+
+.platformText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
 .platform:hover {
   background: var(--color-panel-hover);
 }
 
-.platform span {
+/* The "6 products" line under the name. */
+.platformText > span {
   color: var(--color-text-muted);
   font-size: 0.8rem;
 }

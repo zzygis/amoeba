@@ -127,7 +127,8 @@ class Product extends Model
     }
 
     // The sort options offered in the UI (same as eneba.com, plus "biggest discount").
-    public const SORTS = ['popular', 'price_asc', 'price_desc', 'discount', 'newest', 'oldest', 'az'];
+    // "stock" (most keys first) is the store's default.
+    public const SORTS = ['stock', 'popular', 'price_asc', 'price_desc', 'discount', 'newest', 'oldest', 'az'];
 
     /**
      * Orders by one of SORTS. Needs scopeCatalog() first (price_cents is its alias).
@@ -140,6 +141,8 @@ class Product extends Model
         $fromGame = fn (string $column) => Game::select($column)->whereColumn('games.id', 'products.game_id');
 
         match ($sort) {
+            // Most unsold keys first (all sellers together); `stock` is withStock()'s count.
+            'stock' => $query->orderByDesc('stock'),
             // Most Steam reviews first: a real-world popularity signal.
             'popular' => $query->orderByDesc($fromGame('steam_reviews')),
             'price_asc' => $query->orderByRaw('price_cents IS NULL')->orderBy('price_cents'),

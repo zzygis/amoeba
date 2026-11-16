@@ -22,7 +22,7 @@ class ProductController extends Controller
      *   &platform=Steam,Xbox     comma-separated
      *   &region=GLOBAL,EUROPE    comma-separated
      *   &min_price=5&max_price=30  in euros
-     *   &sort=popular|price_asc|price_desc|discount|newest|oldest|az
+     *   &sort=stock|popular|price_asc|price_desc|discount|newest|oldest|az  (default: stock)
      *   &per_page=24&page=2
      */
     public function index(Request $request): AnonymousResourceCollection
@@ -48,7 +48,7 @@ class ProductController extends Controller
                 $this->toCents($validated['min_price'] ?? null),
                 $this->toCents($validated['max_price'] ?? null),
             )
-            ->sorted($validated['sort'] ?? 'popular')
+            ->sorted($validated['sort'] ?? 'stock') // default: most keys first
             ->paginate($validated['per_page'] ?? 24)
             ->withQueryString(); // keep the filters in the next/prev page links
 
@@ -65,6 +65,7 @@ class ProductController extends Controller
         $countBy = fn (string $column) => Product::query()
             ->selectRaw("{$column} as name, count(*) as count")
             ->groupBy($column)
+            ->orderByDesc('count') // most products first (ties alphabetically)
             ->orderBy($column)
             ->get()
             ->map(fn ($row) => ['name' => $row->name, 'count' => (int) $row->count]);
