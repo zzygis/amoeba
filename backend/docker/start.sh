@@ -34,6 +34,9 @@ php artisan route:cache
         php artisan app:make-admin "$ADMIN_EMAIL" || true
     fi
 
+    # If APP_KEY changed, the stored key codes can't be decrypted: replace them.
+    php artisan app:repair-keys || true
+
     echo "start.sh: database ready"
 ) &
 

@@ -39,6 +39,23 @@ export default function CheckoutPage() {
   }
 
   if (loading) return <p>Loading…</p>
+
+  // The request failed but the cart is now empty: the server most likely placed the order and
+  // then failed to answer. Say so instead of silently dropping the buyer on an empty cart.
+  if (cart.items.length === 0 && error) {
+    return (
+      <section className={styles.panel}>
+        <h1>Something went wrong</h1>
+        <p className="alert" role="alert">
+          We couldn't confirm your payment, but your order may have been placed. Check your orders before trying again.
+        </p>
+        <Link to="/orders" className="btn btn-primary">
+          Go to my orders
+        </Link>
+      </section>
+    )
+  }
+
   // Nothing to pay for (e.g. opened /checkout directly): back to the cart.
   if (cart.items.length === 0 && !paying) return <Navigate to="/cart" replace />
 

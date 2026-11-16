@@ -110,17 +110,9 @@ class ProductSeeder extends Seeder
 
         ProductKey::insert(Collection::times($count, fn () => [
             'offer_id' => $offerId,
-            'code' => Crypt::encryptString($this->fakeKeyCode()),
+            'code' => Crypt::encryptString(ProductKey::fakeCode()),
             'created_at' => $now,
             'updated_at' => $now,
         ])->all());
-    }
-
-    /**
-     * A key-shaped random code like "7KQ2M-XW9PD-3HZRT" (not a real activation key).
-     */
-    private function fakeKeyCode(): string
-    {
-        return implode('-', array_map(fn () => strtoupper(Str::random(5)), range(1, 3)));
     }
 }

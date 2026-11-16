@@ -9,8 +9,11 @@ It is a demo: **no real payments are taken, the keys are randomly generated and 
 are made up**. Game facts come from Steam's public store API; images and trailers are loaded
 from Steam's CDN.
 
-- Live site: _add the Vercel URL here after deploying_ (admin: `/admin`)
-- API health check: _add `https://<render-url>/api/health` here_
+- Live site: **https://amoeba-517a.vercel.app** (admin panel: [/admin](https://amoeba-517a.vercel.app/admin))
+- API: **https://amoeba-wjlv.onrender.com** (health check: [/api/health](https://amoeba-wjlv.onrender.com/api/health))
+
+The API runs on Render's free plan, which sleeps after 15 minutes without visitors: the
+first request after that can take up to a minute while it wakes up, then it is fast.
 
 ## The assignment, part by part
 
@@ -165,7 +168,10 @@ Do these in order: each service needs a value from the one before it.
    - **CA certificate**: download it (`ca.pem`)
 
 3. **Render (API)** — at [dashboard.render.com](https://dashboard.render.com):
-   1. **New → Blueprint**, pick the GitHub repo. Render reads `render.yaml`.
+   1. **New → Blueprint**, pick the GitHub repo. Render reads `render.yaml`, which puts the
+      service in **Frankfurt**. It must be in the same region as the Aiven database: with the
+      API in Oregon and the database in Frankfurt every query crossed the Atlantic, and pages
+      took 2–6 s instead of ~0.1 s. A service's region can't be changed later, only recreated.
    2. Fill in the secrets it asks for:
 
       | Variable | Value |
@@ -206,6 +212,8 @@ Optional: real emails — set `MAIL_MAILER=smtp` and `MAIL_HOST`, `MAIL_PORT`, `
 | Symptom | Likely cause |
 |---|---|
 | Site says "Could not reach the server" | `FRONTEND_URL` doesn't exactly match the Vercel URL (CORS), or the API is still waking up |
+| Checkout and order pages return 500, everything else works | `APP_KEY` changed, so the stored key codes can't be decrypted. Keep `APP_KEY` when recreating the service; if it's lost, `start.sh` runs `php artisan app:repair-keys` on each deploy, which replaces unreadable (demo) codes |
+| Every page takes seconds, even `/api/health` | Render and Aiven are in different regions |
 | `/api/health` returns `"database":"unreachable"` | wrong DB credentials, or the CA secret file is missing/misnamed (check Render logs) |
 | Render deploy fails with `start.sh: not found` | script saved with CRLF line endings (`.gitattributes` should prevent this) |
 | Vercel page 404s on refresh | Root Directory isn't `frontend`, so `vercel.json` wasn't picked up |

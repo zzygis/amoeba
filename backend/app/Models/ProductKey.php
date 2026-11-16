@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 /**
  * One activation code, uploaded by a seller for their offer.
@@ -25,6 +26,14 @@ class ProductKey extends Model
             'code' => 'encrypted',
             'sold_at' => 'datetime',
         ];
+    }
+
+    /**
+     * A key-shaped random code like "7KQ2M-XW9PD-3HZRT" (demo data, not a real activation key).
+     */
+    public static function fakeCode(): string
+    {
+        return implode('-', array_map(fn () => strtoupper(Str::random(5)), range(1, 3)));
     }
 
     public function offer(): BelongsTo
