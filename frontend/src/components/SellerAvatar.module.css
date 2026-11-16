@@ -1,0 +1,17 @@
+.avatar {
+  display: inline-grid;
+  flex-shrink: 0;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 800;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Portrait cover art cropped to a circle: keep the top part, where titles and faces usually are. */
+.image {
+  object-fit: cover;
+  object-position: center 20%;
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.15);
+}

@@ -4,6 +4,7 @@ import { ApiError } from '../api/client'
 import { useAuth } from '../auth/useAuth'
 import { MAX_QUANTITY, useCart } from '../cart/useCart'
 import CheckoutSteps from '../components/CheckoutSteps'
+import SellerAvatar from '../components/SellerAvatar'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { formatPrice, plural } from '../lib/format'
 import type { CartLine } from '../types'
@@ -168,7 +169,8 @@ function CartLineRow({ line }: { line: CartLine }) {
       <img src={product.cover_url} alt="" width={64} height={96} />
       <div className={styles.lineInfo}>
         <Link to={`/games/${product.slug}`}>{product.name}</Link>
-        <span className={styles.muted}>
+        <span className={`${styles.muted} ${styles.sellerLine}`}>
+          <SellerAvatar name={offer.seller.name} imageUrl={offer.seller.avatar_url} size={20} />
           Sold by <strong>{offer.seller.name}</strong> · {formatPrice(offer.price_cents)} each
         </span>
         {offer.stock === 0 ? (

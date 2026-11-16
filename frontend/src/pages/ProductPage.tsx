@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { productPath } from '../api/products'
 import Price from '../components/Price'
 import ProductCard from '../components/ProductCard'
+import SellerAvatar from '../components/SellerAvatar'
 import Reviews, { Stars } from '../components/Reviews'
 import TrailerPlayer from '../components/TrailerPlayer'
 import WishlistButton from '../components/WishlistButton'
@@ -293,10 +294,11 @@ function ProductView({ product }: { product: ProductDetail }) {
   )
 }
 
-// "Sold by KeyCrate ✓ · 9.92 Superb"
+// "(K) Sold by KeyCrate ✓ · 9.92 Superb"
 function SellerLine({ offer }: { offer: Offer }) {
   return (
     <p className={styles.seller}>
+      <SellerAvatar name={offer.seller.name} imageUrl={offer.seller.avatar_url} size={40} />
       <span className={styles.muted}>Sold by</span> <strong>{offer.seller.name}</strong>
       {offer.seller.verified && (
         <span className={styles.verified} title="Verified seller">

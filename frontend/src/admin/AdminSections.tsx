@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { ApiError, apiRequest, apiSend } from '../api/client'
 import FormField from '../components/FormField'
+import SellerAvatar from '../components/SellerAvatar'
 import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { useForm } from '../hooks/useForm'
 import { formatDate, formatPrice } from '../lib/format'
@@ -11,6 +12,7 @@ interface AdminOffer {
   product: string
   product_slug: string
   seller: string
+  seller_avatar_url: string | null
   price_cents: number
   list_price_cents: number | null
   stock: number
@@ -161,7 +163,12 @@ function OfferRow({ offer, onChanged }: { offer: AdminOffer; onChanged: () => vo
           </div>
         )}
       </td>
-      <td>{offer.seller}</td>
+      <td>
+        <span className={styles.sellerCell}>
+          <SellerAvatar name={offer.seller} imageUrl={offer.seller_avatar_url} size={22} />
+          {offer.seller}
+        </span>
+      </td>
       <td>
         <form
           className={styles.priceForm}

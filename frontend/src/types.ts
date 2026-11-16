@@ -56,6 +56,7 @@ export interface Offer {
     rating: number // 0-10
     rating_label: string // "Superb", "Excellent", ...
     verified: boolean
+    avatar_url: string | null // profile picture; null = show the initial
   }
 }
 
@@ -101,6 +102,7 @@ export interface Review {
   rating: number
   body: string
   created_at: string
+  is_sample: boolean // demo review from the seed data, shown with a label
 }
 
 export interface ReviewPage extends Paginated<Review> {

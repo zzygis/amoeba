@@ -37,6 +37,7 @@ class AdminController extends Controller
             'product' => $offer->product->name(),
             'product_slug' => $offer->product->slug,
             'seller' => $offer->seller->name,
+            'seller_avatar_url' => $offer->seller->avatar_url,
             'price_cents' => $offer->price_cents,
             'list_price_cents' => $offer->product->original_price_cents,
             'stock' => (int) $offer->stock,

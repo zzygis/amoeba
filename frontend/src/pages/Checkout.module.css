@@ -288,3 +288,10 @@
 .success p {
   margin: 0;
 }
+
+.sellerLine {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+}

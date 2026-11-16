@@ -117,3 +117,10 @@
   height: 18px;
   accent-color: var(--color-accent);
 }
+
+.sellerCell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+}

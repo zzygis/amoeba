@@ -7,6 +7,8 @@ use App\Models\HomeBlock;
 use App\Models\Offer;
 use App\Models\Product;
 use App\Models\ProductKey;
+use App\Models\Review;
+use App\Models\User;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -220,7 +222,7 @@ class ProductCatalogTest extends TestCase
             ->assertJsonPath('data.offers.0.discount_percent', 50)
             ->assertJsonPath('data.offers.1.price_cents', 1500)
             ->assertJsonPath('data.offers.2.stock', 0)
-            ->assertJsonStructure(['data' => ['offers' => [['id', 'price_cents', 'stock', 'seller' => ['name', 'rating', 'rating_label', 'verified']]]]]);
+            ->assertJsonStructure(['data' => ['offers' => [['id', 'price_cents', 'stock', 'seller' => ['name', 'rating', 'rating_label', 'verified', 'avatar_url']]]]]);
     }
 
     public function test_show_unknown_slug_returns_404(): void
@@ -240,11 +242,11 @@ class ProductCatalogTest extends TestCase
     public function test_seeder_can_run_twice_without_duplicating_anything(): void
     {
         $this->seed(DatabaseSeeder::class);
-        $counts = [Game::count(), Product::count(), Offer::count(), ProductKey::count(), HomeBlock::count()];
+        $counts = [Game::count(), Product::count(), Offer::count(), ProductKey::count(), HomeBlock::count(), Review::count(), User::count()];
 
         $this->seed(DatabaseSeeder::class);
 
-        $this->assertSame($counts, [Game::count(), Product::count(), Offer::count(), ProductKey::count(), HomeBlock::count()]);
+        $this->assertSame($counts, [Game::count(), Product::count(), Offer::count(), ProductKey::count(), HomeBlock::count(), Review::count(), User::count()]);
         $this->assertSame(0, Product::where('slug', 'sekiro-shadows-die-twice-steam-global')->first()->keys()->count());
     }
 

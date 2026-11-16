@@ -1,6 +1,7 @@
 // Unit tests for the small pure helpers the pages rely on. Run with: npm test
 import { describe, expect, it } from 'vitest'
 import { productsPath, readStoreQuery, storeLink, storeQueryString } from '../api/products'
+import { avatarColor } from './avatar'
 import { discountCents } from './discount'
 import { formatPrice, plural } from './format'
 import { pageNumbers } from './pagination'
@@ -33,6 +34,18 @@ describe('safeRedirect', () => {
     expect(safeRedirect('//evil.example')).toBe('/')
     expect(safeRedirect('javascript:alert(1)')).toBe('/')
     expect(safeRedirect(null)).toBe('/')
+  })
+})
+
+describe('avatarColor', () => {
+  it('gives the same seller the same colour every time', () => {
+    expect(avatarColor('KeyCrate')).toBe(avatarColor('KeyCrate'))
+    expect(avatarColor('KeyCrate')).toMatch(/^#[0-9a-f]{6}$/)
+  })
+
+  it('spreads different sellers over different colours', () => {
+    const sellers = ['KeyCrate', 'PixelVault', 'GameHarbor', 'NovaKeys', 'LootLane', 'QuickCodes']
+    expect(new Set(sellers.map(avatarColor)).size).toBeGreaterThan(3)
   })
 })
 

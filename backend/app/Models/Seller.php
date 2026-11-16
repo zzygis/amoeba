@@ -10,7 +10,7 @@ class Seller extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'slug', 'rating', 'verified'];
+    protected $fillable = ['name', 'slug', 'avatar_url', 'rating', 'verified'];
 
     protected function casts(): array
     {

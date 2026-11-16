@@ -26,6 +26,7 @@ class OfferResource extends JsonResource
                 'rating' => $this->seller->rating,
                 'rating_label' => $this->seller->ratingLabel(),
                 'verified' => $this->seller->verified,
+                'avatar_url' => $this->seller->avatar_url, // null: the frontend shows the initial instead
             ],
         ];
     }
