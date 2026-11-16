@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Game;
 use App\Models\Product;
 use App\Models\User;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -74,6 +75,32 @@ class ReviewTest extends TestCase
         $this->postJson("/api/products/{$slug}/reviews", ['rating' => 6, 'body' => 'short'])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['rating', 'body']);
+    }
+
+    public function test_seeded_sample_reviews_are_labelled_and_their_authors_cannot_log_in(): void
+    {
+        $this->seed(DatabaseSeeder::class);
+        $slug = Game::where('slug', 'elden-ring')->first()->products()->first()->slug;
+
+        $this->getJson("/api/products/{$slug}/reviews")
+            ->assertOk()
+            ->assertJsonPath('data.0.is_sample', true);
+
+        // The reviewer accounts have long random passwords nobody knows.
+        $this->postJson('/api/login', ['email' => 'sample-reviewer-1@amoeba.invalid', 'password' => 'password'])
+            ->assertUnprocessable();
+    }
+
+    public function test_customer_reviews_are_never_samples(): void
+    {
+        $game = Game::factory()->create();
+        $this->buyer($game);
+        $slug = $game->products()->first()->slug;
+
+        // Even if a client sends is_sample, it's ignored (not fillable).
+        $this->postJson("/api/products/{$slug}/reviews", ['rating' => 5, 'body' => 'Great game, really enjoyed it.', 'is_sample' => true])
+            ->assertCreated()
+            ->assertJsonPath('data.is_sample', false);
     }
 
     public function test_guests_see_reviews_but_cannot_write(): void

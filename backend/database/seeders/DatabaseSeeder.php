@@ -12,6 +12,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // All idempotent, so this runs on every deploy (docker/start.sh).
-        $this->call([SellerSeeder::class, ProductSeeder::class, CouponSeeder::class, HomeBlockSeeder::class]);
+        $this->call([SellerSeeder::class, ProductSeeder::class, ReviewSeeder::class, CouponSeeder::class, HomeBlockSeeder::class]);
     }
 }

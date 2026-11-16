@@ -20,6 +20,8 @@ class ReviewResource extends JsonResource
             'author' => strtok($this->user->name, ' '),
             'rating' => $this->rating,
             'body' => $this->body,
+            // Demo review from the seed data, shown with a "Sample review" label.
+            'is_sample' => (bool) $this->is_sample,
             'created_at' => $this->created_at->toIso8601String(),
         ];
     }

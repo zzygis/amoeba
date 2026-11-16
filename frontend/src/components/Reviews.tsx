@@ -90,6 +90,11 @@ export default function Reviews({ slug, average, count }: Props) {
               <strong>{review.author}</strong>
               <Stars rating={review.rating} />
               <span className={styles.muted}>{formatDate(review.created_at)}</span>
+              {review.is_sample && (
+                <span className={styles.sample} title="Written for this demo store, not by a real customer">
+                  Sample review
+                </span>
+              )}
             </div>
             <p>{review.body}</p>
           </li>
