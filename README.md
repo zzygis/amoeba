@@ -220,5 +220,14 @@ Optional: real emails — set `MAIL_MAILER=smtp` and `MAIL_HOST`, `MAIL_PORT`, `
 
 ## AI usage
 
-This project was built with an AI assistant (Claude). The conversation is exported to
-`docs/` as the assignment requires.
+This project was built with an AI assistant (Claude). The full conversation is exported to
+[`docs/chat-history/`](docs/chat-history/) as the assignment requires: every prompt and every
+reply, with tool calls listed by name (their output is left out) and credentials replaced
+with `[REDACTED]`.
+
+| # | Session | When (UTC) | What happens |
+|---|---|---|---|
+| 1 | [Planning and setup](docs/chat-history/01-planning.md) | 12 Nov, 17:25–17:55 | The brief, choosing the stack (React + TypeScript, Laravel REST, MySQL), the data model and the plan |
+| 2 | [Start building](docs/chat-history/02-start-building.md) | 13 Nov, 22:12–22:52 | Scaffolding: git, Laravel 12 + Sanctum, the Vite React app, MySQL, CORS, `/api/health`, the Dockerfile and Render blueprint |
+| 3 | [Frontend, features, deployment and live testing](docs/chat-history/03-frontend-and-features.md) | 15 Nov 20:02 – 16 Nov 20:34 | The React shop, Eneba styling, search, checkout, accounts, admin panel, README; then GitHub, deploying to Aiven + Render + Vercel, testing the live site, speed fixes, moving the API to Frankfurt and fixing checkout after the APP_KEY change |
+| 4 | [CMS question and config cleanup](docs/chat-history/04-cms-and-cleanup.md) | 16 Nov, 09:43–14:54 | Whether a CMS makes sense, removing comments from config files, resetting the local admin password |
