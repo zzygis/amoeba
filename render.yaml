@@ -45,3 +45,11 @@ services:
         value: database
       - key: QUEUE_CONNECTION
         value: sync
+      # Emails (order confirmations, password resets) are written to the log, i.e. Render's
+      # log stream. To really send them, set MAIL_MAILER=smtp plus MAIL_HOST, MAIL_PORT,
+      # MAIL_USERNAME, MAIL_PASSWORD and MAIL_FROM_ADDRESS from an email provider.
+      - key: MAIL_MAILER
+        value: log
+      # Optional: an account email to make admin on each deploy (register it on the site first).
+      - key: ADMIN_EMAIL
+        sync: false
