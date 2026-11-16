@@ -4,9 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Game;
 use App\Models\Product;
+use App\Models\ProductKey;
 use App\Models\Seller;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Str;
 
 /**
@@ -90,11 +92,28 @@ class ProductSeeder extends Seeder
             $offer = $product->offers()->updateOrCreate(['seller_id' => $seller->id], ['price_cents' => $price]);
 
             // Only new offers get keys, so re-running never inflates stock or undoes sales.
-            // Collection::times(0) is empty (unlike range(1, 0), which is [1, 0]).
-            if ($offer->wasRecentlyCreated) {
-                $offer->keys()->createMany(Collection::times($keys, fn () => ['code' => $this->fakeKeyCode()]));
+            if ($offer->wasRecentlyCreated && $keys > 0) {
+                $this->insertKeys($offer->id, $keys);
             }
         }
+    }
+
+    /**
+     * All of an offer's keys in ONE insert query instead of one query per key: against a
+     * remote database (Aiven) every query is a network round trip, and the first deploy
+     * seeds ~850 keys. A bulk insert skips the model, so the code is encrypted here with
+     * Crypt::encryptString, exactly what ProductKey's 'encrypted' cast does.
+     */
+    private function insertKeys(int $offerId, int $count): void
+    {
+        $now = now();
+
+        ProductKey::insert(Collection::times($count, fn () => [
+            'offer_id' => $offerId,
+            'code' => Crypt::encryptString($this->fakeKeyCode()),
+            'created_at' => $now,
+            'updated_at' => $now,
+        ])->all());
     }
 
     /**
